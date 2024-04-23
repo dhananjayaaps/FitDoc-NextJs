@@ -1,6 +1,7 @@
 // pages/login.js
 
 import Head from 'next/head';
+import ImageBox from '../components/ImageBox';
 
 export default function Login() {
   return (
@@ -57,9 +58,7 @@ export default function Login() {
           </div>
         </div>
         <div className="flex-1 bg-indigo-100 text-center hidden lg:flex">
-          <div className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
-            style={{backgroundImage: "url('/Assets/images/platform.png')"}}>
-          </div>
+            <ImageBox className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat" />
         </div>
       </div>
     </div>

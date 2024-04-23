@@ -1,5 +1,3 @@
-// import React, { useState } from 'react';
-
 const NewPost = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');

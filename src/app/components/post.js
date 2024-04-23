@@ -1,48 +1,115 @@
+"use client";
 import React from 'react';
+import { useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import LikeButton from './LikeButton';
 
-const Post = () => {
+const Post = ({ id, content, imageUrl, userImageUrl, likes, userEmailAddress, UserName, liked,Timestamp }) => {
+  // console.log("Post", UserName, likes);
+
+  const [showDialog, setShowDialog] = useState(false);
+  const [postContent, setPostContent] = useState(content);
+  const [deleted, setDeleted] = useState(false);
+
+  const handleEdit = () => {
+    axios.put(`http://localhost:8080/posts/${id}`, { content: postContent }, { withCredentials: true })
+      .then(response => {
+        toast.success("Post edited successfully");
+        setShowDialog(false);
+      })
+      .catch(error => {
+        console.error('Error editing post:', error);
+        toast.error("Failed to edit post");
+        // setShowDialog(false);
+      });
+  };
+
+  const handleDelete = () => {
+    axios.delete(`http://localhost:8080/posts/${id}`, { withCredentials: true })
+      .then(response => {
+        toast.success("Post deleted successfully");
+        setShowDialog(false);
+        setDeleted(true);
+      })
+      .catch(error => {
+        console.error('Error deleting post:', error);
+        toast.error("Failed to delete post");
+      });
+  };
+
+  if (deleted) {
+    return null;
+  }
+
+  console.log("Post", id);
   return (
     <div className="bg-gray-100 h-screen flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md max-w-md">
         {/* User Info with Three-Dot Menu */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
-            <img src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250" alt="User Avatar" className="w-8 h-8 rounded-full" />
+            <img src={userImageUrl} alt="User Avatar" className="w-8 h-8 rounded-full" />
             <div>
-              <p className="text-gray-800 font-semibold">John Doe</p>
-              <p className="text-gray-500 text-sm">Posted 2 hours ago</p>
+              <p className="text-gray-800 font-semibold">{UserName}</p>
+              <p className="text-gray-500 text-sm">{Timestamp}</p>
             </div>
           </div>
           <div className="text-gray-500 cursor-pointer">
             {/* Three-dot menu icon */}
-            <button className="hover:bg-gray-50 rounded-full p-1">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="7" r="1" />
-                <circle cx="12" cy="12" r="1" />
-                <circle cx="12" cy="17" r="1" />
-              </svg>
-            </button>
+            <div>
+              <button className="hover:bg-gray-50 rounded-full p-1" onClick={() => setShowDialog(true)}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="7" r="1" />
+                  <circle cx="12" cy="12" r="1" />
+                  <circle cx="12" cy="17" r="1" />
+                </svg>
+              </button>
+
+              {/* Dialog */}
+              {showDialog && (
+                <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+                  <div className="bg-white p-4 rounded-lg relative">
+                    <button className="absolute top-0 right-0 m-2" onClick={() => setShowDialog(false)}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                      </svg>
+                    </button>
+                    <h2 className='text-lg font-bold'>Edit Post</h2>
+                    <textarea className="w-full h-full" value={postContent} onChange={(e) => setPostContent(e.target.value)}></textarea>
+                    {/* <div className='w-full'> */}
+                      <button className="bg-transparent hover:bg-red-500 text-blue-700 font-semibold hover:text-white py-2 px-3 border border-blue-500 hover:border-transparent rounded"
+                        onClick={handleDelete}>
+                        Delete
+                      </button>
+                      {/* <div className='px-1'></div> */}
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" 
+                        onClick={handleEdit}>
+                          Save
+                      </button>
+                    {/* </div> */}
+                  </div>
+                </div>
+              )}
+
+            </div>
           </div>
         </div>
         {/* Message */}
         <div className="mb-4">
-          <p className="text-gray-800">A healthy Meal Plan for a day<a href="" className="text-blue-600">#CuteKitten</a>
-            <a href="" className="text-blue-600">#AdventureCat</a>
+          <p className="text-gray-800">{postContent}
           </p>
         </div>
         {/* Image */}
         <div className="mb-4">
-          <img src="https://www.verywellfit.com/thmb/oTNxCgHzNWCkTCRDuUlgWkTi4dY=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/VWFit-Meal-Plan-Journey-1-Week-Healthy-and-Balance-Meal-Plan-6ee43578918947a4b687922d614f2be3.jpg" alt="Post Image" className="w-full h-48 object-cover rounded-md" />
+          <img src={`http://localhost:8080/files/${imageUrl}`} alt="Post Image" className="w-full h-48 object-cover rounded-md" />
+
         </div>
         {/* Like and Comment Section */}
         <div className="flex items-center justify-between text-gray-500">
           <div className="flex items-center space-x-2">
-            <button className="flex justify-center items-center gap-2 px-2 hover:bg-gray-50 rounded-full p-1">
-              <svg className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M12 21.35l-1.45-1.32C6.11 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-4.11 6.86-8.55 11.54L12 21.35z" />
-              </svg>
-              <span>42 Likes</span>
-            </button>
+            <LikeButton  postId={id} initialLikes={likes} likedStatus={liked}/>
           </div>
           <button className="flex justify-center items-center gap-2 px-2 hover:bg-gray-50 rounded-full p-1">
             <svg width="22px" height="22px" viewBox="0 0 24 24" className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faGlobe, faImage } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios'; // Import axios for making requests
@@ -8,6 +8,18 @@ const TweetComposer = () => {
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null); // State to hold the selected image file
   const [imageUrl, setImageUrl] = useState('');
+
+  useEffect(() => {
+    const fetchUserImageUrl = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/user/image', { withCredentials: true });
+        setImageUrl(response.data);
+      } catch (error) {
+        console.error('Error getting image URL:', error);
+      }
+    };
+    fetchUserImageUrl();
+  }, []); // Empty dependency array ensures this effect runs only once after initial render
 
   const handleTweet = async () => {
     try {
@@ -57,10 +69,10 @@ const TweetComposer = () => {
       <div className="rounded-xl bg-white w-full md:w-2/3 lg:w-1/3">
         <div className="flex p-4">
           <div>
-            <img className="rounded-full w-14" src="https://pbs.twimg.com/profile_images/1367267802940375042/H4JDd6aC_400x400.jpg" alt="Profile" />
+            <img className="rounded-full w-14" src={imageUrl} alt="Profile" />
           </div>
 
-          <div className="ml-3 flex flex-col w-full">
+          <div className="ml-3 flex flex-col w-full py-3">
             <textarea
               placeholder="What's happening?"
               className="w-full text-xl resize-none outline-none h-32"
@@ -68,6 +80,8 @@ const TweetComposer = () => {
               value={content}
               onChange={(e) => setContent(e.target.value)}
             ></textarea>
+
+            <div className="py-1"></div>
 
             {/* Input field for image upload */}
             <input
@@ -84,13 +98,13 @@ const TweetComposer = () => {
           </div>
         </div>
 
-        <div className="flex items-center text-blue-400 justify-between py-6 px-4">
+        <div className="flex items-center text-blue-400 justify-end py-3 px-3">
           <div className="flex text-2xl pl-12">
             <div className="flex items-center justify-center p-3 hover:bg-blue-100 rounded-full cursor-pointer">
               {/* <FontAwesomeIcon icon={faImage} size='s'/> */}
             </div>
             <button
-              className="inline px-4 py-3 rounded-full font-bold text-white bg-blue-300 cursor-pointer hover:bg-blue-400"
+              className="inline px-4 py-3 rounded-full font-bold text-white bg-blue-300 cursor-pointer hover:bg-blue-400 text-base"
               onClick={handleTweet}
             >
               Tweet
