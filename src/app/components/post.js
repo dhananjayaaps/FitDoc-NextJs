@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import LikeButton from './LikeButton';
+import CommentSection from './CommentSection';
 
 const Post = ({ id, content, imageUrl, userImageUrl, likes, userEmailAddress, UserName, liked,Timestamp }) => {
   // console.log("Post", UserName, likes);
@@ -127,6 +128,8 @@ const Post = ({ id, content, imageUrl, userImageUrl, likes, userEmailAddress, Us
         <hr className="mt-2 mb-2" />
         <div className="mt-4">
           {/* Comment 1 */}
+          <CommentSection postId={id} />
+          <div className="flex items-center space-x-5 mt-2"></div>
           <div className="flex items-center space-x-2">
             <img src="https://forumine.com/download/file.php?avatar=54_1519777959.jpg" alt="User Avatar" className="w-6 h-6 rounded-full" />
             <div>
