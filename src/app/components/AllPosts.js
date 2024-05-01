@@ -33,6 +33,8 @@ const AllPosts = () => {
                     userEmailAddress={post.userEmailAddress}
                     UserName={post.UserName}
                     Timestamp={post.timestamp}
+                    commentsCount={post.commentsCount}
+                    Comments={post.comments}
                 />
             ))}
         </div>

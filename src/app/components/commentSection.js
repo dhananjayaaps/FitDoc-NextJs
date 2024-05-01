@@ -1,20 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const CommentSection = ({ postId }) => {
-  const [showCommentInput, setShowCommentInput] = useState(false);
+const CommentSection = ({ postId, Comments }) => {
+  const [showCommentInput, setShowCommentInput] = useState(true);
   const [commentText, setCommentText] = useState('');
+  const [commentsList, setComments] = useState([]);
+
+  useEffect(() => {
+    setComments(Comments);
+  }, [Comments]);
 
   const handleToggleCommentInput = () => {
     setShowCommentInput(!showCommentInput);
   };
 
   const handleCommentSubmit = () => {
-    // Implement your logic to submit the comment
-    console.log('Comment submitted:', commentText);
-    // You can make an API call here to submit the comment to the backend
-    setCommentText('');
+    if (commentText.trim() === '') {
+      console.log('Comment cannot be empty');
+      return;
+    }
+    const commentData = {
+      content: commentText
+    };
+  
+    axios.post(`http://localhost:8080/posts/${postId}/comments`, commentData, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(response => {
+      if (response.status === 201) {
+        console.log('Comment submitted successfully');
+        setComments([response.data, ...commentsList]);
+        setCommentText('');
+        setShowCommentInput(false);
+      } else {
+        console.error('Failed to submit comment. Status:', response.status);
+      }
+    })
+    .catch(error => {
+      console.error('Error submitting comment:', error.message);
+    });
   };
-
+  
+  
   return (
     <div>
       <button className="flex justify-center items-center gap-2 bg-gray-500 px-2 hover:bg-gray-600 rounded-full p-1" onClick={handleToggleCommentInput}>
@@ -43,6 +73,18 @@ const CommentSection = ({ postId }) => {
           </button>
         </div>
       )}
+      <div className="flex items-center space-x-5 mt-2"></div>
+      <div>
+        {commentsList.map(comment => (
+          <div key={comment.id} className="flex items-center space-x-4 w-full mt-2">
+            <img src={comment.commenterImageUrl} alt="User Avatar" className="w-6 h-6 rounded-full" />
+            <div>
+              <p className="text-gray-800 font-semibold">{comment.commenterName}</p>
+              <p className="text-gray-500 text-sm">{comment.content}</p>
+            </div>
+          </div>
+        ))}
+      </div>  
     </div>
   );
 };
