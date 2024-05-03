@@ -32,3 +32,26 @@ body {
     text-wrap: balance;
   }
 }
+
+.notification-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 1500px; /* Adjust the width as needed */
+  height: 100%;
+  z-index: 1000; /* Ensure it's above other content */
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+}
+
+.notification-icon {
+  position: fixed;
+  top: 20px; /* Adjust position as needed */
+  right: 20px; /* Adjust position as needed */
+  cursor: pointer;
+  /* Add additional styling for the icon */
+}
+
+.notification-icon{
+  z-index: 1001;
+}
+

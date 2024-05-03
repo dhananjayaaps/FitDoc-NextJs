@@ -7,6 +7,7 @@ import TweetComposer from "./components/TweetComposer";
 import AllPosts from "./components/AllPosts";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import NotificationBar from "./components/NotificationBar"; // Import NotificationBar component
 
 export default function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -52,6 +53,7 @@ export default function App() {
       <NavBar />
       <TweetComposer />
       <AllPosts LoggedUser = {user}/>
+      <NotificationBar />
       <ToastContainer />
     </div>
   );

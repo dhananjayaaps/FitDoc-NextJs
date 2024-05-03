@@ -20,13 +20,18 @@ export default function App() {
             Timeline
           </Link>
         </NavbarItem>
-        <NavbarItem>
+        {/* <NavbarItem>
           <Link color="foreground" href="#">
             Notifications
           </Link>
-        </NavbarItem>
+        </NavbarItem> */}
       </NavbarContent>
       <NavbarContent justify="end">
+        <NavbarItem>
+          <Button as={Link} color="primary" onc variant="flat">
+            Log Out
+          </Button>
+        </NavbarItem>
         <NavbarItem>
           <Button as={Link} color="primary" href="http://localhost:8080/logout" variant="flat">
             Log Out

@@ -43,7 +43,7 @@ const Post = ({ id, content, imageUrl, userImageUrl, likes, userEmailAddress, Us
   }
 
   return (
-    <div className="bg-gray-100 h-screen flex items-center justify-center">
+    <div className="bg-gray-100 py-10 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md max-w-md">
         {/* User Info with Three-Dot Menu */}
         <div className="flex items-center justify-between mb-4">
@@ -98,7 +98,7 @@ const Post = ({ id, content, imageUrl, userImageUrl, likes, userEmailAddress, Us
           </div>
         </div>
         {/* Message */}
-        <div className="mb-4">
+        <div className="mb-4 w-96">
           <p className="text-gray-800">{postContent}
           </p>
         </div>
