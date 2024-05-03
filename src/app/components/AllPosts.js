@@ -15,10 +15,11 @@ const AllPosts = ({LoggedUser}) => {
         }
     };
 
+    const username = LoggedUser.email.replace('@gmail.com', '');
+
     useEffect(() => {
         fetchPosts();
-    }, []); 
-    console.log(posts);
+    }, []);
     return (
         <div>
             {posts.map(post => (
@@ -36,6 +37,7 @@ const AllPosts = ({LoggedUser}) => {
                     commentsCount={post.commentsCount}
                     Comments={post.comments}
                     isMine={post.userEmailAddress === LoggedUser.email}
+                    userName={username}
                 />
             ))}
         </div>

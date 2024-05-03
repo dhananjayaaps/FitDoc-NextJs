@@ -6,8 +6,7 @@ import LikeButton from './LikeButton';
 import CommentSection from './commentSection';
 import { useState } from 'react';
 
-const Post = ({ id, content, imageUrl, userImageUrl, likes, userEmailAddress, UserName, liked,Timestamp, commentsCount, Comments, isMine }) => {
-  // console.log("Post", UserName, likes);
+const Post = ({ id, content, imageUrl, userImageUrl, likes, userEmailAddress, UserName, liked,Timestamp, commentsCount, Comments, isMine, userName }) => {
 
   const [showDialog, setShowDialog] = useState(false);
   const [postContent, setPostContent] = useState(content);
@@ -43,7 +42,6 @@ const Post = ({ id, content, imageUrl, userImageUrl, likes, userEmailAddress, Us
     return null;
   }
 
-  console.log("Post", id);
   return (
     <div className="bg-gray-100 h-screen flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md max-w-md">
@@ -52,7 +50,9 @@ const Post = ({ id, content, imageUrl, userImageUrl, likes, userEmailAddress, Us
           <div className="flex items-center space-x-2">
             <img src={userImageUrl} alt="User Avatar" className="w-8 h-8 rounded-full" />
             <div>
-              <p className="text-gray-800 font-semibold">{UserName}</p>
+              {/* <p className="text-gray-800 font-semibold">{UserName}</p> */}
+              {/* make a link to username */}
+              <a href={`/profile/${userName}`} className="text-gray-800 font-semibold">{UserName}</a>
               <p className="text-gray-500 text-sm">{Timestamp}</p>
             </div>
           </div>
