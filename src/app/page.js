@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -19,7 +20,16 @@ export default function App() {
         if (response.data === "ok") {
           console.log("ok");
           setAuthenticated(true);
-          setLoading(false);
+
+          axios.get(`http://localhost:8080/user/details`, { withCredentials: true })
+          .then(response => {
+            setUser(response.data);
+            setLoading(false);
+          })
+          .catch(error => {
+            console.error('Error getting user details:', error);
+          });
+
         } else {
           window.location.href = 'http://localhost:3000/Login';
         }
@@ -42,7 +52,7 @@ export default function App() {
     <div>
       <NavBar />
       <TweetComposer />
-      <AllPosts />
+      <AllPosts LoggedUser = {user}/>
       <ToastContainer />
     </div>
   );

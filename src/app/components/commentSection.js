@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const CommentSection = ({ postId, Comments }) => {
+const CommentSection = ({ postId, Comments, isMine }) => {
   const [showCommentInput, setShowCommentInput] = useState(true);
   const [commentText, setCommentText] = useState('');
   const [commentsList, setComments] = useState([]);
@@ -43,6 +43,23 @@ const CommentSection = ({ postId, Comments }) => {
       console.error('Error submitting comment:', error.message);
     });
   };
+
+  const handleDeleteComment = (commentId) => {
+    axios.delete(`http://localhost:8080/posts/${postId}/comments/${commentId}`, {
+      withCredentials: true
+    })
+    .then(response => {
+      if (response.status === 204) {
+        console.log('Comment deleted successfully');
+        setComments(commentsList.filter(comment => comment.id !== commentId));
+      } else {
+        console.error('Failed to delete comment. Status:', response.status);
+      }
+    })
+    .catch(error => {
+      console.error('Error deleting comment:', error.message);
+    });
+  }
   
   
   return (
@@ -76,11 +93,28 @@ const CommentSection = ({ postId, Comments }) => {
       <div className="flex items-center space-x-5 mt-2"></div>
       <div>
         {commentsList.map(comment => (
-          <div key={comment.id} className="flex items-center space-x-4 w-full mt-2">
-            <img src={comment.commenterImageUrl} alt="User Avatar" className="w-6 h-6 rounded-full" />
-            <div>
-              <p className="text-gray-800 font-semibold">{comment.commenterName}</p>
-              <p className="text-gray-500 text-sm">{comment.content}</p>
+          <div key={comment.id} className="flex items-center justify-between w-96 mt-2">
+            <div className="flex items-center space-x-4">
+              <img src={comment.commenterImageUrl} alt="User Avatar" className="w-6 h-6 rounded-full" />
+              <div>
+                <p className="text-gray-800 font-semibold">{comment.commenterName}</p>
+                <p className="text-gray-500 text-sm">{comment.content}</p>
+              </div>
+            </div>
+            <div className="relative">
+              {isMine && (
+                <div> {/* Added padding right and padding top */}
+                  <button
+                    className="text-gray-500 hover:text-red-500"
+                    onClick={() => handleDeleteComment(comment.id)}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         ))}

@@ -19,8 +19,7 @@ const TweetComposer = () => {
       }
     };
     fetchUserImageUrl();
-  }, []); // Empty dependency array ensures this effect runs only once after initial render
-
+  }, []); 
   const handleTweet = async () => {
     try {
       console.log('Posting tweet...');
@@ -28,26 +27,23 @@ const TweetComposer = () => {
       console.log('Image URL:', imageUrl);
 
       const formData = new FormData();
-      formData.append('file', image); // Append the selected image file to the FormData
+      formData.append('file', image); 
 
-      // Send a POST request to upload the image to the server
       const response = await axios.post('http://localhost:8080/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
-        withCredentials: true // Include this option to send credentials
+        withCredentials: true
       });
 
-      // Get the URL of the uploaded image from the response
       const uploadedImageUrl = response.data.message;
       console.log('Uploaded Image URL:', uploadedImageUrl);
 
-      // Now you can use the uploaded image URL in your tweet
       await axios.post('http://localhost:8080/posts', {
         content,
-        imageUrl: uploadedImageUrl // Use the uploaded image URL in the tweet
+        imageUrl: uploadedImageUrl
       }, {
-        withCredentials: true // Include this option to send credentials
+        withCredentials: true
       });
 
       setContent('');

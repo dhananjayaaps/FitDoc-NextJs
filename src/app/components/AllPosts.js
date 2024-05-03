@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Post from './post';
 
-const AllPosts = () => {
+const AllPosts = ({LoggedUser}) => {
     const [posts, setPosts] = useState([]);
 
     const fetchPosts = async () => {
@@ -35,6 +35,7 @@ const AllPosts = () => {
                     Timestamp={post.timestamp}
                     commentsCount={post.commentsCount}
                     Comments={post.comments}
+                    isMine={post.userEmailAddress === LoggedUser.email}
                 />
             ))}
         </div>

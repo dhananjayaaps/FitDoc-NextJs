@@ -1,12 +1,12 @@
 "use client";
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import LikeButton from './LikeButton';
 import CommentSection from './commentSection';
 import { useState } from 'react';
 
-const Post = ({ id, content, imageUrl, userImageUrl, likes, userEmailAddress, UserName, liked,Timestamp, commentsCount, Comments }) => {
+const Post = ({ id, content, imageUrl, userImageUrl, likes, userEmailAddress, UserName, liked,Timestamp, commentsCount, Comments, isMine }) => {
   // console.log("Post", UserName, likes);
 
   const [showDialog, setShowDialog] = useState(false);
@@ -127,27 +127,7 @@ const Post = ({ id, content, imageUrl, userImageUrl, likes, userEmailAddress, Us
         <p className="text-gray-800 font-semibold">Comment</p>
         <hr className="mt-2 mb-2" />
         <div className="mt-4">
-          {/* Comment 1 */}
-          <CommentSection postId={id} Comments={Comments} />
-          {/* <div className="flex items-center space-x-5 mt-2"></div> */}
-          {/* <div className="flex items-center space-x-2">
-            <img src="https://forumine.com/download/file.php?avatar=54_1519777959.jpg" alt="User Avatar" className="w-6 h-6 rounded-full" />
-            <div>
-              <p className="text-gray-800 font-semibold">Jane Smith</p>
-              <p className="text-gray-500 text-sm">Lovely shot! 📸</p>
-            </div>
-          </div> */}
-          {/* Comment 2 */}
-          
-          {/* Reply from John Doe with indentation */}
-          {/* <div className="flex items-center space-x-2 mt-2 ml-6">
-            <img src="https://placekitten.com/40/40" alt="User Avatar" className="w-6 h-6 rounded-full" />
-            <div>
-              <p className="text-gray-800 font-semibold">John Doe</p>
-              <p className="text-gray-500 text-sm">That little furball is from a local shelter. You should check it out! 🏠😺</p>
-            </div>
-          </div> */}
-          {/* Add more comments and replies as needed */}
+          <CommentSection postId={id} Comments={Comments} isMine={isMine}/>
         </div>
       </div>
     </div>
