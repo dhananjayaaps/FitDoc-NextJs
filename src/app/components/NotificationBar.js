@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const NotificationBar = () => {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     const [notifications, setNotifications] = useState([]);
 
     useEffect(() => {

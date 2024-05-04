@@ -52,7 +52,7 @@ const Post = ({ id, content, imageUrl, userImageUrl, likes, userEmailAddress, Us
             <div>
               {/* <p className="text-gray-800 font-semibold">{UserName}</p> */}
               {/* make a link to username */}
-              <a href={`/profile/${userName}`} className="text-gray-800 font-semibold">{UserName}</a>
+              <a href={`/Profile?user=${userName}`} className="text-gray-800 font-semibold">{UserName}</a>
               <p className="text-gray-500 text-sm">{Timestamp}</p>
             </div>
           </div>
