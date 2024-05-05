@@ -12,6 +12,7 @@ export default function Profile() {
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(true);
+  const [loading3, setLoading3] = useState(true);
   const [user, setUser] = useState('');
   const [username, setUsername] = useState('');
   const [thisUser, setThisUser] = useState({});
@@ -89,7 +90,7 @@ export default function Profile() {
           toast.error("Error loading the user");
         });
     }
-  }, [username, thisUser.email]);
+  }, [username, thisUser.email, user.followedBy]);
   
 
   const handleFollow = () => {
@@ -131,6 +132,9 @@ export default function Profile() {
   if (loading || loading2) {
     return <div>Loading...</div>;
   }
+  // if (loading3) {
+  //   return <div>Loading...</div>;
+  // }
   console.log('user:', user);
   // return <div>Loading...</div>;
 
@@ -231,7 +235,7 @@ export default function Profile() {
         </div>
       )}
     </div>
-    <AllMyPosts LoggedUser = {user}/>
+    <AllMyPosts profileUsername = {username}/>
   </div>
   );
 }

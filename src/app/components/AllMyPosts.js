@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Post from './post';
 
-const AllMyPosts = () => {
+const AllMyPosts = ({profileUsername}) => {
     const [posts, setPosts] = useState([]);
     const [authenticated, setAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -54,8 +54,10 @@ const AllMyPosts = () => {
         return <div>Loading...</div>;
     }
 
+    const profileEmail = profileUsername + '@gmail.com';
+
     // Filter posts to show only posts belonging to the current user
-    const userPosts = posts.filter(post => post.userEmailAddress === user.email);
+    const userPosts = posts.filter(post => post.userEmailAddress === profileEmail);
 
     return (
         <div>
