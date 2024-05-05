@@ -4,11 +4,14 @@ import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import NavBar from '../components/NavBar';
+import AllPosts from '../components/AllPosts';
+import AllMyPosts from '../components/AllMyPosts';
 
 export default function Profile() {
 
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [loading2, setLoading2] = useState(true);
   const [user, setUser] = useState('');
   const [username, setUsername] = useState('');
   const [thisUser, setThisUser] = useState({});
@@ -52,6 +55,7 @@ export default function Profile() {
           const usernameQuery = params.get('user');
           if (usernameQuery) {
             setUsername(usernameQuery);
+            setLoading2(false);
           }
 
         } else {
@@ -85,7 +89,7 @@ export default function Profile() {
           toast.error("Error loading the user");
         });
     }
-  }, [username, thisUser.email, user.followedBy]);
+  }, [username, thisUser.email]);
   
 
   const handleFollow = () => {
@@ -124,9 +128,11 @@ export default function Profile() {
   const isMine = thisUser.email === user.email;
   console.log('isMine:', isMine);
 
-  if (loading) {
+  if (loading || loading2) {
     return <div>Loading...</div>;
   }
+  console.log('user:', user);
+  // return <div>Loading...</div>;
 
   return (
     <div>
@@ -221,10 +227,11 @@ export default function Profile() {
               </button>
             </div>
           </div>
+          
         </div>
       )}
     </div>
-    </div>
-    
+    <AllMyPosts LoggedUser = {user}/>
+  </div>
   );
 }

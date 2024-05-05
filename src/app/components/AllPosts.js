@@ -8,7 +8,7 @@ const AllPosts = ({ LoggedUser }) => {
     const fetchPosts = async () => {
         try {
             const response = await axios.get('http://localhost:8080/posts', { withCredentials: true });
-            setPosts(response.data.reverse());
+            setPosts(response.data.reverse()); // Reverse the order of posts
         } catch (error) {
             console.error('Error fetching posts:', error);
         }
