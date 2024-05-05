@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faGlobe, faImage } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios'; // Import axios for making requests
+import { toast } from 'react-toastify';
 
 const TweetComposer = () => {
   const [content, setContent] = useState('');
@@ -49,9 +50,11 @@ const TweetComposer = () => {
       setContent('');
       setImage(null);
       setImageUrl('');
-
+      //make a tostify message
+      toast.success("Tweet posted successfully");
       console.log('Tweet posted successfully');
     } catch (error) {
+      toast.error('Error posting tweet:', error);
       console.error('Error posting tweet:', error);
     }
   };
