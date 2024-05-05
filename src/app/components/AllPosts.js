@@ -1,15 +1,14 @@
-"use client";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Post from './post';
 
-const AllPosts = ({LoggedUser}) => {
+const AllPosts = ({ LoggedUser }) => {
     const [posts, setPosts] = useState([]);
 
     const fetchPosts = async () => {
         try {
             const response = await axios.get('http://localhost:8080/posts', { withCredentials: true });
-            setPosts(response.data);
+            setPosts(response.data.reverse());
         } catch (error) {
             console.error('Error fetching posts:', error);
         }
@@ -20,6 +19,7 @@ const AllPosts = ({LoggedUser}) => {
     useEffect(() => {
         fetchPosts();
     }, []);
+
     return (
         <div>
             {posts.map(post => (
