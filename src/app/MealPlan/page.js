@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Post from "./post";
-import NavBar from "../components/navbar";
+import NavBar from "./navbar";
 import TweetComposer from "./TweetComposer";
 import AllPosts from "./AllPosts";
 import { ToastContainer } from 'react-toastify';

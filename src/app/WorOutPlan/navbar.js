@@ -33,12 +33,12 @@ export default function App({activePanel}) {
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="foreground" href={userLink}>
+          <Link href={userLink} color="foreground">
             Profile
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="/" aria-current="page">
+          <Link href="/" aria-current="page" color="foreground">
             Current Workout Status
           </Link>
         </NavbarItem>
@@ -48,7 +48,7 @@ export default function App({activePanel}) {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="/WorOutPlan" color="foreground" aria-current="page">
+          <Link href="/WorOutPlan" aria-current="page">
             Workout Plan
           </Link>
         </NavbarItem>

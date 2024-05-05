@@ -3,9 +3,10 @@ import axios from 'axios';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import NavBar from '../components/NavBar';
+import NavBar from './navbar';
 import AllPosts from '../components/AllPosts';
 import AllMyPosts from '../components/AllMyPosts';
+import NotificationBar from '../components/NotificationBar';
 
 export default function Profile() {
 
@@ -236,6 +237,7 @@ export default function Profile() {
       )}
     </div>
     <AllMyPosts profileUsername = {username}/>
+    <NotificationBar />
   </div>
   );
 }
