@@ -38,6 +38,9 @@ const Post = ({ id, content, imageUrl, userImageUrl, likes, userEmailAddress, Us
       });
   };
 
+  // get username from the user email
+  const ownerUsername = userEmailAddress.replace('@gmail.com','');
+
   if (deleted) {
     return null;
   }
@@ -52,7 +55,7 @@ const Post = ({ id, content, imageUrl, userImageUrl, likes, userEmailAddress, Us
             <div>
               {/* <p className="text-gray-800 font-semibold">{UserName}</p> */}
               {/* make a link to username */}
-              <a href={`/Profile?user=${userName}`} className="text-gray-800 font-semibold">{UserName}</a>
+              <a href={`/Profile?user=${ownerUsername}`} className="text-gray-800 font-semibold">{UserName}</a>
               <p className="text-gray-500 text-sm">{Timestamp}</p>
             </div>
           </div>
